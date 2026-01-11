@@ -1,0 +1,18 @@
+
+.leftFlank {
+  background-color: #d20d2e;
+  color: white;
+  padding: 10px;
+}
+
+.rightFlank {
+  background-color: #0f0a97;
+  color: white;
+  padding: 10px;
+}
+
+.base {
+  background-color: #007233;
+  color: white;
+  padding: 10px;
+}
