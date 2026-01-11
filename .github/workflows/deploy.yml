@@ -34,7 +34,7 @@ jobs:
         run: |
           # Define SSH connection info
           SSH_USER="jetty"
-          DO_DROPLET_IP={% raw %}${{ secrets.DO_DROPLET_IP }}{% endraw %}
+          DO_DROPLET_IP="${{ secrets.DO_DROPLET_IP }}"
           APP_NAME="timer"
           REMOTE_PATH="/home/jetty/deployment/site/$APP_NAME/"
 
