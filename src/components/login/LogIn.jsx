@@ -1,4 +1,5 @@
 import { useState } from "react"
+import styles from "./LogIn.module.css";
 
 function LogIn({ login }) {
   const init = { username: "", password: "" };
@@ -13,14 +14,28 @@ function LogIn({ login }) {
   }
 
   return (
-    <div>
+    <div className={styles.card}>
       <h2>Login</h2>
-      <form onSubmit={performLogin}>
-        <input placeholder="User Name" id="username" onChange={onChange} value={loginCredentials.username} />
-        <input placeholder="Password" id="password" onChange={onChange} value={loginCredentials.password} />
+
+      <form className={styles.form} onSubmit={performLogin}>
+        <input
+          placeholder="User Name"
+          id="username"
+          onChange={onChange}
+          value={loginCredentials.username}
+        />
+
+        <input
+          placeholder="Password"
+          id="password"
+          onChange={onChange}
+          value={loginCredentials.password}
+        />
+
         <button type="submit">Login</button>
       </form>
     </div>
-  )
+  );
 }
+
 export default LogIn

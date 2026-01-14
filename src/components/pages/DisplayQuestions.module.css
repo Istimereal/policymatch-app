@@ -1,0 +1,59 @@
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+/* Desktop: to kolonner */
+@media (min-width: 900px) {
+  .grid {
+    grid-template-columns: 2fr 1fr;
+  }
+}
+
+.question {
+  border: 1px solid #ddd;
+  background: #fff;
+  border-radius: 10px;
+  padding: 14px;
+}
+
+.controls {
+  display: grid;
+  gap: 12px;
+}
+
+.block {
+  border: 1px solid #ddd;
+  background: #fff;
+  border-radius: 10px;
+  padding: 12px;
+}
+
+/* Knapper: virker selvom du bruger <button> direkte */
+.controls button {
+  margin-right: 8px;
+  margin-top: 6px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #aaa;
+  background: #f7f7f7;
+  cursor: pointer;
+}
+
+.controls button:hover {
+  background: #ededed;
+}
+
+.msg {
+  margin-top: 12px;
+  color: #333;
+}
+
+.navRow {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #eee;
+}

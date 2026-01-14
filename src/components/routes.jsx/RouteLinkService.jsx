@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import facade from '../../apiFacade';
 
-export function useRole(){ 
+export function useRole(loggedIn){ 
   const [uRole, setRole] = useState(["any"]); 
   
   useEffect(() => { 
@@ -11,7 +11,7 @@ export function useRole(){
  
    };
    fetchRoles();
-  }, []); 
+  }, [loggedIn]); 
   
   return uRole; 
 }
