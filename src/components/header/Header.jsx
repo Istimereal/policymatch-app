@@ -1,63 +1,76 @@
 import { NavLink } from "react-router-dom";
-import { useState, useEffect } from "react";
-import { useRole } from "../routes.jsx/RouteLinkService";
 import facade from "../../apiFacade";
 import styles from "./Header.module.css"; 
 
-function RenderAdminQuestions() {
+function RenderAdminQuestions({ loggedIn, removeMessage }) {
+if (!loggedIn) return null;
 
-   const [uRole, setRole] = useState(["any"]);
-   
-  useEffect(() => { 
-     const fetchRoles = async () => {
-      const roles = await facade.getRolesFromToken();
-    setRole(roles); 
-     };
-     fetchRoles();
-  }, []);
+const roles = facade.getRolesFromToken();
 
-  if (!uRole.includes("ADMIN")) return null;
+if (!roles.includes("ADMIN")) return null;
 
   return (
     <>
-  <li>
-       <NavLink to="/questions/add">
-        Add Questions
-      </NavLink>
+    <li className={styles.adminItem}>
+        <NavLink
+          to="/questions/add"
+          onClick={removeMessage}
+          className={({ isActive }) =>
+            `${styles.link} ${styles.adminLink} ${isActive ? styles.active : ""}`
+          }
+        >
+          Add Questions
+        </NavLink>
       </li>
-      <li>
-       <NavLink to="/questions/manage">
-       ManageQuestions 
-      </NavLink>
-      </li>
+
+      <li className={styles.adminItem}>
+        <NavLink
+          to="/questions/manage"
+          onClick={removeMessage}
+          className={({ isActive }) =>
+            `${styles.link} ${styles.adminLink} ${isActive ? styles.active : ""}`
+          }
+        >
+          Manage Questions
+        </NavLink>
+        </li>
       </>
   );
 }
 
-function RenderAdminAndUserConditional() {
-
-    const role = useRole();
-
-  if (!role.includes("ADMIN") && !role.includes("USER") ) return null;
+function RenderAdminAndUserConditional({ loggedIn, removeMessage }) {
+  if (!loggedIn) return null;
+ 
+const roles = facade.getRolesFromToken();
+  if (!roles.includes("ADMIN") && !roles.includes("USER") ) return null;
 
   return (
     <>
   
      <li>
-        <NavLink to="/questions">
-           Answer Questions
+        <NavLink
+          to="/questions"
+          onClick={removeMessage}
+          className={({ isActive }) => `${styles.link} ${isActive ? styles.active : ""}`}
+        >
+          Answer Questions
         </NavLink>
-    </li>
+      </li>
+
       <li>
-       <NavLink to="/responses">
-        Policy Match Evaluation
-      </NavLink>
+        <NavLink
+          to="/responses"
+          onClick={removeMessage}
+          className={({ isActive }) => `${styles.link} ${isActive ? styles.active : ""}`}
+        >
+          Policy Match Evaluation
+        </NavLink>
       </li>
       </>
   );
 }
 
-const Header = ({loggedIn, setLoggedIn}) => {
+const Header = ({loggedIn, setLoggedIn, removeMessage}) => {
   
   const username = facade.getUsernameFromToken(); 
 
@@ -67,42 +80,56 @@ const Header = ({loggedIn, setLoggedIn}) => {
   }
 
 return (
-<>
-<nav className="header">
-    <li>
-        <NavLink to="/" end>
-            Home
-        </NavLink>
-    </li>
-  {!loggedIn && (
-  <li>
-    <NavLink to="/" end>
-      Login
-    </NavLink>
-  </li>
-)}
 
-  {!loggedIn && (
-  <li>
-    <NavLink to="/auth/register/">
-      Register
-    </NavLink>
-  </li>
+ <header className={styles.header}>
+      <nav className={styles.nav}>
+        <ul className={styles.list}>
+          <li>
+            <NavLink
+              to="/"
+              end
+              className={({ isActive }) => `${styles.link} ${isActive ? styles.active : ""}`}
+            >
+              Home
+            </NavLink>
+          </li>
+
+          {!loggedIn && (
+            <li>
+              <NavLink
+                to="/"
+                end
+                className={({ isActive }) => `${styles.link} ${isActive ? styles.active : ""}`}
+              >
+                Login
+              </NavLink>
+            </li>
+          )}
+
+          {!loggedIn && (
+            <li>
+              <NavLink
+                to="/auth/register/"
+                className={({ isActive }) => `${styles.link} ${isActive ? styles.active : ""}`}
+              >
+                Register
+              </NavLink>
+            </li>
 )}               
-    <RenderAdminQuestions />
-<RenderAdminAndUserConditional />
-        
+    <RenderAdminQuestions loggedIn={loggedIn} removeMessage={removeMessage}/>
+<RenderAdminAndUserConditional loggedIn={loggedIn} removeMessage={removeMessage}/>
+    </ul>    
 </nav>
 
- {loggedIn && (
-        <div style={{ padding: "8px 0" }}>
-          User: {username}
-          <button onClick={makeLogout} style={{ marginLeft: "10px" }}>
+   {loggedIn && (
+        <div className={styles.userBox}>
+          <span className={styles.userText}>User: {username}</span>
+          <button className={styles.logoutBtn} onClick={makeLogout}>
             Logout
           </button>
         </div>
       )}
-</>
+    </header>
 );
 };
 export default Header

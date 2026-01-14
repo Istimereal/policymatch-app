@@ -1,6 +1,77 @@
 import { useEffect, useState } from "react";
 import { fetchData } from "../../util/persistence";
 import LoadState from "../common/LoadState.";
+import { useOutletContext } from "react-router-dom";
+import styles from "./DisplayQuestions.module.css";
+
+function QuestionView({ currentQ }) {
+  if (!currentQ) return null;
+
+  return (
+    <div>
+      <table>
+        <tbody>
+          <tr>
+            <td>Question</td>
+            <td>{currentQ.id}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>{currentQ.subject}</h3>
+      <h4>{currentQ.header}</h4>
+      <p>{currentQ.questionText}</p>
+    </div>
+  );
+}
+
+function ResponseButtons({ onSetResponse }) {
+  return (
+    <>
+      <h3>Response</h3>
+      <table>
+        <tbody>
+          <tr>
+            <td>
+              <button onClick={() => onSetResponse("AGREE")}>Agree</button>
+              <button onClick={() => onSetResponse("DISAGREE")}>DisAgree</button>
+              <button onClick={() => onSetResponse("NEUTRAL")}>Neutral</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </>
+  );
+}
+
+function ImportanceButtons({ onSetImportance }) {
+  return (
+    <>
+      <h3>Importance</h3>
+      <table>
+        <tbody>
+          <tr>
+            <td>
+              <button onClick={() => onSetImportance("HIGH")}>High</button>
+              <button onClick={() => onSetImportance("LOW")}>Low</button>
+              <button onClick={() => onSetImportance("MEDIUM")}>Medium</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </>
+  );
+}
+
+function HandleUIInputs({ onBack, onNext, onSubmit }) {
+  return (
+    <div className={styles.btnRow}>
+      <button type="button" onClick={onBack}>Back</button>
+      <button type="button" onClick={onNext}>Next</button>
+      <button type="button" onClick={onSubmit}>Submit</button>
+    </div>
+  );
+}
 
 
 export default function DisplayQuestions(){
@@ -8,9 +79,10 @@ export default function DisplayQuestions(){
     const [questions, setQuestions] = useState([]);
     const [index, setIndex] = useState(0);
     const [responses, setResponses] = useState([]);
-    const [statusMessage, setStatusMessage] = useState("");
     const [loading, setLoading] = useState(false);
-
+    
+    const { setStatusMessage, removeMessage } = useOutletContext();
+    
 
     const currentQ = questions[index];
 
@@ -21,7 +93,7 @@ export default function DisplayQuestions(){
       async function getQuestions() {
     
     setLoading(true);
-    setStatusMessage("");
+    removeMessage();
   
     try {
       const data = await fetchData(ApiURLQuestions , "GET", null, false);
@@ -43,9 +115,19 @@ export default function DisplayQuestions(){
     }
   }
   getQuestions();
-  },[]);
+  },[removeMessage, setStatusMessage]);
+/*
+  function showVanillaMSG(msg) {
+ document.getElementById("vanillamsg").textContent = msg;
+  
+}  */
 
-    function setResponseForCurrentQuestion(newResponse) {
+function showVanillaMSG(msg) {
+  const el = document.getElementById("vanillamsg");
+  if (el) el.textContent = msg;
+}
+
+  function setResponseForCurrentQuestion(newResponse) {
   const questionId = currentQ.id;
 
   const updated = responses.map(r => {
@@ -55,7 +137,7 @@ export default function DisplayQuestions(){
     return r;
   });
   setResponses(updated);
-}
+  }
 
   function setImportanceForCurrentQuestion(newImportance) {
   const questionId = currentQ.id;
@@ -82,83 +164,52 @@ export default function DisplayQuestions(){
   }
 
   async function postResponses() {
-
+ setLoading(true);
+ removeMessage(); 
     try {
       console.log(responses);
    const result = await fetchData(ApiURLResponses, "POST", responses, true);
       console.log("POST OK:", result);
       setStatusMessage(result.msg);
+      showVanillaMSG(result.msg);
       
     } catch (error) {
       console.error("Failed to POST responses:", error.message);
        setStatusMessage(error.message);
+      
   }
   }
 
   return (
 
-    <div>
-<LoadState loading={loading}>
-{currentQ && (
+<div>
+    <LoadState loading={loading}>
+      <div>
+        <section className={styles.question}>
+          <QuestionView currentQ={currentQ} />
+        </section>
 
-   <div>
-    <table>
-        <tbody>
-        <tr>
-        <td>Question</td>
-        <td>{currentQ.id}</td>
-       </tr>
-        </tbody>
-   </table>
+        {currentQ && (
+          <section className={styles.controls}>
+            <div>
+              <ResponseButtons onSetResponse={setResponseForCurrentQuestion} />
+            </div>
 
-    <h3>{currentQ.subject}</h3>
-    <h4>{currentQ.header}</h4>
-    <p>{currentQ.questionText}</p>
-   </div>
-)}
+            <div>
+              <ImportanceButtons onSetImportance={setImportanceForCurrentQuestion} />
+            </div>
 
-<h3>Response</h3>
- <table>
-        <tbody>
-          <tr>
-        <td>
+            <div>
+              <HandleUIInputs onBack={backQuestion} onNext={nextQuestion} onSubmit={postResponses} />
+            </div>
+          </section>
+        )}
+      </div>
 
- <button onClick={() => setResponseForCurrentQuestion("AGREE")}>Agree</button>
-  <button  onClick={() => setResponseForCurrentQuestion("DISAGREE")}>DisAgree</button>
-   <button onClick={() => setResponseForCurrentQuestion("NEUTRAL")}>Neutral</button>
-        </td>
-        </tr>
-        </tbody>
-   </table>
-   <h3>Importance</h3>
-   <table>
-        <tbody>
-          <tr>
-        <td>
-   
-    <button onClick={() => setImportanceForCurrentQuestion("HIGH")}>High</button>
-  <button  onClick={() => setImportanceForCurrentQuestion("LOW")}>Low</button>
-   <button onClick={() => setImportanceForCurrentQuestion("MEDIUM")}>Medium</button>
-        </td>
-        </tr>
-        </tbody>
-   </table>
-   <table>
-    <tbody>
-  <tr>
-    <td>
-  <button onClick={backQuestion}>Back</button>
-  
-  <button  onClick={nextQuestion}>Next</button>
-  <button onClick={postResponses}>Submit</button>
-</td>
-  </tr>
-  </tbody>
-  </table>
-   </LoadState>
-   {statusMessage && <p>{statusMessage}</p>}
-    </div>
-  
+      <p id="vanillamsg" className={styles.msg}></p>
+    </LoadState>
+  </div>
      );
      
 }
+

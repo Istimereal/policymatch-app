@@ -8,23 +8,19 @@ export function fetchDataCall(url, callback, method, needAuth, errorCallBack, bo
             'Accept': 'application/json'
         }
 
-    if (method === 'POST' || method === 'PUT') {
-        headers['Content-Type'] = 'application/json'
-    }
-
       if (needAuth === true) {
     const token = facade.getToken();
     headers["Authorization"] = `Bearer ${token}`;
   }
 
-    const options = {
-        method,
-        headers
-    }
+  const options = facade.makeOptions(method, needAuth, body )
 
-    if (body) {
-        options.body = JSON.stringify(body);
-    }
+const controller = new AbortController();
+  options.signal = controller.signal;
+
+  const timeoutId = setTimeout(() => {
+    controller.abort(); 
+  }, 180000);
 
     fetch(url, options)
          .then(res => {
@@ -39,26 +35,14 @@ if (errorCallBack) errorCallBack(msg);
     return res.json();
   
 })
-.then(data => { if (data !== null) callback(data); })
+.then(data => { 
+    if (data !== null) callback(data); })
         .catch(err => {
             console.error("fetchDataCall error:", err);
-           if (errorCallBack) {
+           if (errorCallBack) 
     errorCallBack("Network error. Connection failed, or no response.");
-  } 
+}) 
+   .finally(() => {
+      clearTimeout(timeoutId);
         });
-
-  /*      else {
-    console.log("Network or JS error");
-  } */
-/*
-    fetch(url, options)
-        .then(res => res.json())
-        .then(data => callback(data))
-        .catch(err => {
-            if (err.status) {
-                err.fullError.then(e => console.log(e.detail))
-            } else {
-                console.log("Network error");
-            }
-        }) */
-}
+    }

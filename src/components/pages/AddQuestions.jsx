@@ -1,14 +1,15 @@
 import { useState } from "react";
 import { fetchData } from "../../util/persistence";
 import LoadState from "../common/LoadState.";
-// import facade from "../../apiFacade";
+import { useOutletContext } from "react-router-dom";
+import styles from "./AddQuestions.module.css";
 
 const blankQuestion = { header: '', questionText: '', subject: '' };
 
 export default function AddQuestion(){
 const [question, setQuestion] = useState(blankQuestion);
-const [statusMessage, setStatusMessage] = useState("");
-  const [loading, setLoading] = useState(false);
+const [loading, setLoading] = useState(false);
+const { setStatusMessage, removeMessage } = useOutletContext();
  
 
 const ApiURLregister = "http://127.0.0.1:7075/api/v1/questions";
@@ -22,7 +23,7 @@ const name = event.target.id;
 
 async function saveNewQuestion(){
 setLoading(true);
-setStatusMessage("");
+removeMessage();
      
 try{
     console.log(question);
@@ -39,29 +40,53 @@ try{
 }
 }
 
-return(
 
+  return (
     <div>
-         {statusMessage && <p>{statusMessage}</p>}
-         <LoadState loading={loading}>
+      <LoadState loading={loading}>
+        <div className={styles.card}>
+          <h2 className={styles.title}>Add Question</h2>
 
-<label htmlFor="subject">Subject:</label>
-<input name="subject" id="subject" type="text" placeholder="subject"
-value={question.subject} onChange={handleChange}/>
+          <div>
+            <label htmlFor="subject">Subject</label>
+            <input
+              id="subject"
+              type="text"
+              placeholder="subject"
+              value={question.subject}
+              onChange={handleChange}
+            />
+          </div>
 
-<label htmlFor="header">Header:</label>
-<input name="header" id="header" type="text" placeholder="header"
- value={question.header} onChange={handleChange}/>
- 
-<label htmlFor="questionText">Question Body:</label>
-<input name="questionText" id="questionText" type="text" placeholder="questionText"
-value={question.questionText} onChange={handleChange}/>
+          <div>
+            <label htmlFor="header">Header</label>
+            <input
+              id="header"
+              type="text"
+              placeholder="header"
+              value={question.header}
+              onChange={handleChange}
+            />
+          </div>
 
-   <button onClick={saveNewQuestion}>Submit new question</button>
-   
-   </LoadState>
+          <div>
+            <label htmlFor="questionText">Question Body</label>
+            <input
+              id="questionText"
+              type="text"
+              placeholder="questionText"
+              value={question.questionText}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div>
+            <button className={styles.submitBtn} onClick={saveNewQuestion}>
+              Submit new question
+            </button>
+          </div>
+        </div>
+      </LoadState>
     </div>
-)
-    
-
+  );
 }

@@ -2,12 +2,14 @@ import { useState } from "react";
 import { fetchData } from "../../util/persistence";
 import facade from "../../apiFacade";
 import LoadState from "../common/LoadState.";
+import { useOutletContext } from "react-router-dom";
+import styles from "./RegisterUser.module.css";
 
 const blankUser = {username: '', password: '', email: '', city: '' };
 
 export default function RegisterUser(){
 const [user, setUser] = useState(blankUser);
-const [statusMessage, setStatusMessage] = useState("");
+const { setStatusMessage, removeMessage } = useOutletContext();
 const [loading, setLoading] = useState(false);
 
 const ApiURLregister = "http://127.0.0.1:7075/api/v1/auth/register";
@@ -20,7 +22,7 @@ const name = event.target.id;
 }
 async function registerNewUser(){
 setLoading(true);
-setStatusMessage("");
+removeMessage();
 
 try{
     const data = await fetchData(ApiURLregister, "POST", user, false);
@@ -33,31 +35,65 @@ try{
   }
 }
 
-return(
 
-    <div>
-        <LoadState loading={loading}>
-         {statusMessage && <p>{statusMessage}</p>}
- 
- <label htmlFor="username">Username:</label>
-<input name="username" id="username" type="text" placeholder="username"
- value={user.username} onChange={handleChange}/>
- 
- <label htmlFor="password">Password:</label>
-<input name="password" id="password" type="text" placeholder="password"
-value={user.password} onChange={handleChange}/>
+  return (
+    <div className={styles.page}>
+      <LoadState loading={loading}>
+        <div className={styles.card}>
+          <h2 className={styles.title}>Register</h2>
 
-<label htmlFor="email">Email:</label>
-<input name="email" id="email" type="text" placeholder="email"
-value={user.email} onChange={handleChange}/>
+          <div className={styles.field}>
+            <label htmlFor="username">Username</label>
+            <input
+              id="username"
+              type="text"
+              placeholder="username"
+              value={user.username}
+              onChange={handleChange}
+            />
+          </div>
 
-<label htmlFor="city">City:</label>
-<input name="city" id="city" type="text" placeholder="city"
-value={user.city} onChange={handleChange}/>
-   
-   <button onClick={registerNewUser}>Register</button>
-   </LoadState>
+          <div className={styles.field}>
+            <label htmlFor="password">Password</label>
+            <input
+              id="password"
+              type="text"
+              placeholder="password"
+              value={user.password}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className={styles.field}>
+            <label htmlFor="email">Email</label>
+            <input
+              id="email"
+              type="text"
+              placeholder="email"
+              value={user.email}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className={styles.field}>
+            <label htmlFor="city">City</label>
+            <input
+              id="city"
+              type="text"
+              placeholder="city"
+              value={user.city}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className={styles.actions}>
+            <button className={styles.submitBtn} onClick={registerNewUser}>
+              Register
+            </button>
+          </div>
+        </div>
+      </LoadState>
     </div>
-)
-    
+  );
 }
+

@@ -4,7 +4,10 @@ import facade from "../../apiFacade";
 export default function RequiredRole({ role, children }) {
   const roles = facade.getRolesFromToken();
 
-  if (!roles.includes(role)) {
+  const accessAllowed =
+    roles.includes(role[0]) || roles.includes(role[1]);
+
+  if (!accessAllowed) {
     return <Navigate to="/" replace />;
   }
   return children;

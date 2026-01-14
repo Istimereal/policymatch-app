@@ -24,7 +24,6 @@ setQuestion({...question, [name]: value});
     <div>
    <h1>Edit question</h1>
 
-{ JSON.stringify(question)}
     <form onSubmit={handleSubmit}>
     <label htmlFor="id">Id</label>
     <input name="id" id="id" type="number" readOnly placeholder="id" value={question.id} onChange={handleChange} />

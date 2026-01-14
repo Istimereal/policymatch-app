@@ -1,0 +1,44 @@
+.card {
+  max-width: 720px;
+  border: 1px solid #ddd;
+  background: #fff;
+  border-radius: 10px;
+  padding: 14px;
+}
+
+.title {
+  margin: 0 0 12px;
+}
+
+.field {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.field label {
+  font-weight: 600;
+}
+
+.field input {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #aaa;
+  background: #fff;
+}
+
+.actions {
+  margin-top: 8px;
+}
+
+.submitBtn {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #aaa;
+  background: #f7f7f7;
+  cursor: pointer;
+}
+
+.submitBtn:hover {
+  background: #ededed;
+}
