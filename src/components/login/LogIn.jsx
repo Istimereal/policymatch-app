@@ -1,6 +1,6 @@
 import { useState } from "react"
 import styles from "./LogIn.module.css";
-
+//Login
 function LogIn({ login }) {
   const init = { username: "", password: "" };
   const [loginCredentials, setLoginCredentials] = useState(init);
