@@ -40,14 +40,16 @@ function editQuestion(question){
 }
 
 function deleteQuestionById(questionId){
-
+setLoading(true);
    fetchDataCall(`${ApiURLQuestions}/${questionId}`, 
     () => {
         setQuestions(prev => prev.filter(q => q.id != questionId));
         setStatusMessage( `Question ${questionId} have been deleted`);
+        setLoading(false);
     }, 
     'DELETE', true, handleError, null 
 ); 
+
 }
 
 function setStatusWithDetails(baseMsg, ...details) {
@@ -55,12 +57,14 @@ function setStatusWithDetails(baseMsg, ...details) {
   }
 
 function updateQuestion(question){
-
+setLoading(true);
 console.log("update");
 fetchDataCall(`${ApiURLQuestions}/${question.id}`,
   () => { setQuestions(prev => prev.map(q => q.id == question.id ? {...question} : q)); 
-  setStatusWithDetails("Update OK:", question.id, question.subject);}, 
-    'PATCH', true, handleError, question
+  setStatusWithDetails("Update OK:", question.id, question.subject);
+  setLoading(false);
+}
+  , 'PATCH', true, handleError, question
 );
 
 }

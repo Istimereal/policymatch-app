@@ -1,40 +1,35 @@
-
 .card {
-  margin: 12px auto;
-  padding: 14px;
   border: 1px solid #ddd;
-  border-radius: 10px;
   background: #fff;
-  width: 39%;
-  max-width: none;
+  border-radius: 10px;
+  padding: 14px;
 }
 
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  width: 100%;
-  max-width: none;
+.leftFlank {
+  background-color: #d20d2e;
+  color: white;
 }
 
-.form input {
-  padding: 10px 12px;
-  border: 1px solid #aaa;
-  border-radius: 8px;
-  width: 100%;
-  box-sizing: border-box;
+.rightFlank {
+  background-color: #0f0a97;
+  color: white;
+}
+
+.base {
+  background-color: #007233;
+  color: white;
 }
 
 .form button {
   padding: 10px 12px;
-  border: 1px solid #999;
+  border: 1px solid #aaa;
   border-radius: 8px;
-  background: #f7f7f7;
+  background: #08823b;
   cursor: pointer;
   width: 100%;
   max-width: none;
 }
 
 .form button:hover {
-  background: #ededed;
+  background: rgb(222, 153, 64);
 }

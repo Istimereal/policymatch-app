@@ -33,6 +33,7 @@ try{
       console.error("Failed to register user:", error.message);
       setStatusMessage(error.message);
   }
+  finally { setLoading(false) }
 }
 
 

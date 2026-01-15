@@ -5,7 +5,6 @@
   padding: 14px;
 }
 
-/* Farvet result-box (beholder din logik) */
 .leftFlank {
   background-color: #d20d2e;
   color: white;
@@ -19,4 +18,18 @@
 .base {
   background-color: #007233;
   color: white;
+}
+
+.form button {
+  padding: 10px 12px;
+  border: 1px solid #aaa;
+  border-radius: 8px;
+  background: #08823b;
+  cursor: pointer;
+  width: 100%;
+  max-width: none;
+}
+
+.form button:hover {
+  background: rgb(222, 153, 64);
 }

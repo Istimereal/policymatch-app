@@ -17,7 +17,7 @@ function App() {
       <Header loggedIn={loggedIn} setLoggedIn={setLoggedIn} removeMessage={removeMessage} />
 
       <main className="appContent">
-        <h1>policymatch</h1>
+        <h1 className="appTitle">policymatch</h1>
 
         {statusMessage && <p>{statusMessage}</p>}
 

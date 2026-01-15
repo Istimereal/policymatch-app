@@ -14,7 +14,7 @@ function QuestionList({questions, deleteQuestionById, editQuestion}) {
        
             {questions.map((question) =>  (
        //  {crypto.randomUUID()}       
-    <tr key={question.id}> 
+    <tr key={question.id}> d
         <td>{question.id}</td>
         <td>{question.subject}</td>
         <td>{question.header}</td>
