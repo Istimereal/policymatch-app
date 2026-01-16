@@ -64,7 +64,7 @@ const ApiURLresponses = "/api/v1/responses";
         <td>{evaluation.party}</td>
        </tr>
        <tr>
-        <td>Party match persentage:</td>
+        <td>Party match percentage:</td>
         <td>{evaluation.matchPercentage}%</td>
        </tr>
         <tr>
