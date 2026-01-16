@@ -1,12 +1,9 @@
-const BASE_URL = "http://localhost:7075/api/v1/"
-const LOGIN_ENDPOINT = "auth/login"
+import { fetchData } from "./util/persistence";
 
-function handleHttpErrors(res) {
-if (!res.ok) {
-  return Promise.reject({ status: res.status, fullError: res.json() })
-}
-return res.json()
-}
+const BASE_URL = "/api/v1/"
+// til dev "http://127.0.0.1:7073/api/v1/"
+
+const LOGIN_ENDPOINT = "auth/login"
 
 function getRolesFromToken(){
 try{
@@ -39,9 +36,7 @@ catch{
   return  null;
 }
 }
-/* Insert utility-methods from later steps 
-here (REMEMBER to uncomment in the returned 
-object when you do)*/
+
 const setToken = (token) => {
     localStorage.setItem('jwtToken', token)
   }
@@ -56,14 +51,12 @@ const logout = () => {
   localStorage.removeItem("jwtToken");
 }
 
-const login = (user, password) => {
-  const options = makeOptions("POST", false, {username: user, password: password });
-return fetch(BASE_URL + LOGIN_ENDPOINT, options)
-    .then(handleHttpErrors)
-    .then(res => {setToken(res.token) })  
- }
+const login = async (user, password) => {
+  const data = await fetchData(BASE_URL + LOGIN_ENDPOINT, "POST", { username: user, password }, false);
+  setToken(data.token);
+  return data;
+};
 
-const fetchData = () => {/*TODO */  }
 
 const makeOptions= (method,addToken,body) =>
   {
@@ -91,7 +84,6 @@ const facade = {
     loggedIn,
     login,
     logout,
-    fetchData,
     getRolesFromToken,
     getUsernameFromToken
 }

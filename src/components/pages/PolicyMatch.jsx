@@ -10,7 +10,7 @@ const [loading, setLoading] = useState(false);
 
 const { setStatusMessage, removeMessage } = useOutletContext();
 
-const ApiURLresponses = "http://127.0.0.1:7075/api/v1/responses";
+const ApiURLresponses = "/api/v1/responses";
 
  async function getPolicymatch() {
    setLoading(true);
