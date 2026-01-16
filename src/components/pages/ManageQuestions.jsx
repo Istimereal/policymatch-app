@@ -16,7 +16,7 @@ export default function ManageQuestions(){
 
     const { setStatusMessage, removeMessage } = useOutletContext();
 
-    const ApiURLQuestions = "http://127.0.0.1:7075/api/v1/questions";
+    const ApiURLQuestions = "/api/v1/questions";
 
 function handleError(msg) {
   

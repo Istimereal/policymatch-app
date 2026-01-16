@@ -12,7 +12,7 @@ const [user, setUser] = useState(blankUser);
 const { setStatusMessage, removeMessage } = useOutletContext();
 const [loading, setLoading] = useState(false);
 
-const ApiURLregister = "http://127.0.0.1:7075/api/v1/auth/register";
+const ApiURLregister = "/api/v1/auth/register";
 
 const handleChange = (event) =>{
 const value = event.target.value;

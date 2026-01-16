@@ -83,8 +83,8 @@ export default function DisplayQuestions() {
 
   const currentQ = questions[index];
 
-  const ApiURLQuestions = "http://127.0.0.1:7075/api/v1/questions";
-  const ApiURLResponses = "http://127.0.0.1:7075/api/v1/responses";
+  const ApiURLQuestions = "/api/v1/questions";
+  const ApiURLResponses = "/api/v1/responses";
 
   useEffect(() => {
     async function getQuestions() {

@@ -1,6 +1,8 @@
 import { fetchData } from "./util/persistence";
 
-const BASE_URL = "http://127.0.0.1:7075/api/v1/"
+const BASE_URL = "/api/v1/"
+// til dev "http://127.0.0.1:7073/api/v1/"
+
 const LOGIN_ENDPOINT = "auth/login"
 
 function getRolesFromToken(){
