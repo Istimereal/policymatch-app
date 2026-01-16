@@ -28,7 +28,7 @@ try{
     const data = await fetchData(ApiURLregister, "POST", user, false);
  console.log(data);
        facade.setToken(data.token);
-       setStatusMessage(data.username + " Have succesfully been created. Go to answer questions before you can geat an evaluation.");
+       setStatusMessage(data.username + " Have succesfully been created. Go to answer questions before you can get an evaluation.");
     } catch (error) {
       console.error("Failed to register user:", error.message);
       setStatusMessage(error.message);
